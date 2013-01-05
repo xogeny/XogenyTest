@@ -1,5 +1,5 @@
-ModelicaTest
-============
+XogenyTest
+==========
 
 This is just a start, I think the potential enhancements are obvious.
 The goal of the library is to provide a set of models to perform common

@@ -89,6 +89,17 @@ package XogenyTest
     end when;
   end AssertAverageBetween;
 
+  model AssertValueAt "Assert the initial value of a signal at a specific time"
+    parameter Real expected;
+    parameter Modelica.SIunits.Time at;
+    parameter Real eps=1e-6;
+    input Real actual;
+  algorithm
+    when time>=at then
+      assert(abs(expected-actual)<eps, "Expected value, "+String(expected)+", didn't match actual value, "+String(actual)+" at time="+String(time));
+    end when;
+  end AssertValueAt;
+
   package Tests "A library to test the assertion primitives in this library"
     package Trajectory "Tests on the AssertTrajectory model"
       model CheckSuccess
@@ -205,8 +216,9 @@ package XogenyTest
       end CheckFailure3;
     end Average;
   end Tests;
-  annotation (uses(Modelica(version="3.2")));
+
   package Features
   end Features;
 
+  annotation (version="1.0",uses(Modelica(version="3.2")));
 end XogenyTest;
