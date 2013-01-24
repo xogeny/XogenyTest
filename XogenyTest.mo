@@ -220,5 +220,5 @@ package XogenyTest
   package Features
   end Features;
 
-  annotation (version="1.0",uses(Modelica(version="3.2")));
+  annotation (version="1.0",uses(Modelica(version="3.1")));
 end XogenyTest;
