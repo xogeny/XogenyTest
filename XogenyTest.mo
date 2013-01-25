@@ -10,8 +10,10 @@ package XogenyTest
     Integer cur(start=1,fixed=true);
   algorithm
     when initial() then
-      assert(size(expected,1)>0, "Error, expected trajectory contains no points");
-      assert(expected[1,1]>=time, "Assertion failed because some points in the trajectory came before the start of the simulation");
+      assert(size(expected,1)>0,
+        "The expected trajectory contains no points.");
+      assert(expected[1,1]>=time,
+        "Some trajectory points precede the simulation.");
       cur := 1;
       if (expected[1,1]>=time and expected[1,1]<=time) then
         assert(abs(actual-expected[cur,1])<eps, "Actual input value ("+String(actual)+") was not within "+String(eps)+" of the expected result: "+String(expected[cur,2]));
@@ -23,7 +25,10 @@ package XogenyTest
       cur := pre(cur) + 1;
     end when;
     when terminal() then
-      assert(cur>size(expected,1), "Assertion failed because simulation ended before all trajectory points could be checked");
+      assert(cur>size(expected, 1),
+        "The simulation ended before all trajectory points could be checked.");
+      // Note:  In Dymola 7.4, the simulation log may state "Integration
+      // terminated successfully" and then the assertion statement below it.
     end when;
   end AssertTrajectory;
 
@@ -36,13 +41,13 @@ package XogenyTest
   algorithm
     when initial() then
       checked := false;
-      assert(expected>time+eps, "Expected crossing time is not in the future at simulation start");
+      assert(expected>time+eps, "The expected crossing time is before the start of the simulation.");
     end when;
     when time>=expected-eps then
-      assert(not actual, "Signal became true before expected crossing time");
+      assert(not event, "The signal became true before expected crossing time.");
     end when;
     when time>=expected+eps then
-      assert(actual, "Signal was not true by the expected crossing time");
+      assert(event, "The signal was not true by the expected crossing time.");
     end when;
   end AssertBecomesTrueAt;
 
@@ -76,16 +81,23 @@ package XogenyTest
     Real integral;
   initial equation
     integral = 0;
-    assert(finish>start, "End of interval must be after start of interval");
-    assert(time<=start, "Simulation started after interval");
+    assert(finish>start,
+      "The end of interval must be after start of interval.");
+    assert(time<=start, "The simulation started after the interval.");
   equation
     der(integral) = if (time<start) then 0 else signal;
     when time>=finish then
-      assert(abs((integral/(finish-start))-average)<eps, "Expected average value of "+String(average)+" between "+String(start)+" and "+String(finish)+" but got "+String(integral/(finish-start)));
+      assert(abs((integral/(finish-start))-average)<eps,
+        "The average value between times "+String(start)+" and "+String(
+        finish)+" was "+String(average)+" but should have been within "
+        +String(eps)+" of "+String(integral/(finish-start))+".");
     end when;
   algorithm
     when terminal() then
-      assert(time>=finish, "Simulation terminated before interval was completed");
+      assert(time>=finish,
+        "The simulation terminated before the interval was completed.");
+      // Note:  In Dymola 7.4, the simulation log may state "Integration
+      // terminated successfully" and then the assertion statement below it.
     end when;
   end AssertAverageBetween;
 
