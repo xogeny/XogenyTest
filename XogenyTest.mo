@@ -1,6 +1,6 @@
 within ;
 package XogenyTest
-  "This is a stand-alone library to facilitate assertion based testing of Modelica code"
+  "Stand-alone library to facilitate assertion-based testing of Modelica code"
 
   function assertValue "Assert that a value is within specification"
     input Real actual "Actual value";
