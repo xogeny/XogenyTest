@@ -51,20 +51,20 @@ package XogenyTest
   end AssertTrajectory;
 
   model AssertBecomesTrueAt
-    parameter Real expected;
-    parameter Real eps=1e-6;
-    input Boolean actual;
+    parameter Modelica.SIunits.Time at;
+    parameter Modelica.SIunits.Time eps=1e-6;
+    input Boolean event;
   protected
     Boolean checked;
   algorithm
     when initial() then
       checked := false;
-      assert(expected>time+eps, "The expected crossing time is before the start of the simulation.");
+      assert(at>time+eps, "The expected crossing time is before the start of the simulation.");
     end when;
-    when time>=expected-eps then
+    when time>=at-eps then
       assert(not event, "The signal became true before expected crossing time.");
     end when;
-    when time>=expected+eps then
+    when time>=at+eps then
       assert(event, "The signal was not true by the expected crossing time.");
     end when;
   end AssertBecomesTrueAt;
@@ -172,19 +172,19 @@ package XogenyTest
     package BecomesTrueAt "Tests on the AssertBecomesTrueAt model"
       model CheckSuccess
         Real x = time;
-        AssertBecomesTrueAt check_event(actual=(x>2), expected=2);
+        AssertBecomesTrueAt check_event(event=(x>2), at=2);
         annotation(TestCase(action="simulate", result="success"), experiment(StopTime=4));
       end CheckSuccess;
 
       model CheckFailure1 "Check case of early transition"
         Real x = time;
-        AssertBecomesTrueAt check_event(actual=(x>1), expected=2);
+        AssertBecomesTrueAt check_event(event=(x>1), at=2);
         annotation(TestCase(action="simulate", result="failure"), experiment(StopTime=4));
       end CheckFailure1;
 
       model CheckFailure2 "Check for case of late transition"
         Real x = time;
-        AssertBecomesTrueAt check_event(actual=(x>3), expected=2);
+        AssertBecomesTrueAt check_event(event=(x>3), at=2);
         annotation(TestCase(action="simulate", result="success"), experiment(StopTime=4));
       end CheckFailure2;
     end BecomesTrueAt;
