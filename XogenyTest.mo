@@ -54,11 +54,8 @@ package XogenyTest
     parameter Modelica.SIunits.Time at;
     parameter Modelica.SIunits.Time eps=1e-6;
     input Boolean event;
-  protected
-    Boolean checked;
   algorithm
     when initial() then
-      checked := false;
       assert(at>time+eps, "The expected crossing time is before the start of the simulation.");
     end when;
     when time>=at-eps then
