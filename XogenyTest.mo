@@ -35,7 +35,7 @@ package XogenyTest
         cur := 2;
       end if;
     end when;
-    when cur<=size(expected,1) and time>=expected[cur,2] then
+    when cur<=size(expected,1) and time>=expected[cur,1] then
       assertValue(
           actual,
           expected[cur,2],
@@ -144,8 +144,8 @@ package XogenyTest
   package Tests "A library to test the assertion primitives in this library"
     package Trajectory "Tests on the AssertTrajectory model"
       model CheckSuccess
-        Real x = time;
-        AssertTrajectory check_x(actual=x, expected=[0,0; 1,1; 2,2; 3,3]);
+        Real x = time^2;
+        AssertTrajectory check_x(actual=x, expected=[0,0; 1,1; 2,4; 3,9]);
         annotation(TestCase(action="simulate", result="success"), experiment(StopTime=4));
       end CheckSuccess;
 
