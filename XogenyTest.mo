@@ -2,6 +2,18 @@ within ;
 package XogenyTest
   "This is a stand-alone library to facilitate assertion based testing of Modelica code"
 
+  function assertValue "Assert that a value is within specification"
+    input Real actual "Actual value";
+    input Real expected "Expected value";
+    input Real eps=1e-7 "Error tolerance";
+    input String name="" "Name of test";
+  algorithm
+    assert(abs(actual - expected) <= eps, (if name <> "" then "Test " + name +
+      " failed.\n" else "") + "The actual value (" + String(actual) +
+      ") was not within " + String(eps) + " of the expected value (" + String(
+      expected) + ").") annotation (inline=true);
+  end assertValue;
+
   model AssertTrajectory
     parameter Real expected[:,2];
     parameter Real eps=1e-6;
@@ -16,12 +28,18 @@ package XogenyTest
         "Some trajectory points precede the simulation.");
       cur := 1;
       if (expected[1,1]>=time and expected[1,1]<=time) then
-        assert(abs(actual-expected[cur,1])<eps, "Actual input value ("+String(actual)+") was not within "+String(eps)+" of the expected result: "+String(expected[cur,2]));
+        assertValue(
+            actual,
+            expected[cur,2],
+            eps);
         cur := 2;
       end if;
     end when;
     when cur<=size(expected,1) and time>=expected[cur,2] then
-      assert(abs(actual-expected[cur,1])<eps, "Actual input value ("+String(actual)+") was not within "+String(eps)+" of the expected result: "+String(expected[cur,2]));
+      assertValue(
+          actual,
+          expected[cur,2],
+          eps);
       cur := pre(cur) + 1;
     end when;
     when terminal() then
@@ -57,7 +75,10 @@ package XogenyTest
     input Real actual;
   algorithm
     when initial() then
-      assert(abs(expected-actual)<eps, "Expected value, "+String(expected)+", didn't match actual value, "+String(actual)+" at time="+String(time));
+      assertValue(
+          actual,
+          expected,
+          eps);
     end when;
   end AssertInitial;
 
@@ -67,7 +88,12 @@ package XogenyTest
     input Real actual;
   algorithm
     when terminal() then
-      assert(abs(expected-actual)<eps, "Expected value, "+String(expected)+", didn't match actual value, "+String(actual)+" at time="+String(time));
+      assertValue(
+          actual,
+          expected,
+          eps);
+      // Note:  In Dymola 7.4, the simulation log may state "Integration
+      // terminated successfully" and then the assertion statement below it.
     end when;
   end AssertFinal;
 
@@ -108,7 +134,10 @@ package XogenyTest
     input Real actual;
   algorithm
     when time>=at then
-      assert(abs(expected-actual)<eps, "Expected value, "+String(expected)+", didn't match actual value, "+String(actual)+" at time="+String(time));
+      assertValue(
+          actual,
+          expected,
+          eps);
     end when;
   end AssertValueAt;
 
