@@ -7,7 +7,7 @@ package XogenyTest
     parameter Real eps=1e-6;
     input Real actual;
   protected
-    Integer cur;
+    Integer cur(start=1,fixed=true);
   algorithm
     when initial() then
       assert(size(expected,1)>0, "Error, expected trajectory contains no points");
