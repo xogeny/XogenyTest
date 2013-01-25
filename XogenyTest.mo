@@ -67,6 +67,12 @@ package XogenyTest
     when time>=at+eps then
       assert(event, "The signal was not true by the expected crossing time.");
     end when;
+    when terminal() then
+      assert(time >= at + eps,
+        "The expected crossing time is after the end of the simulation.");
+      // Note:  In Dymola 7.4, the simulation log may state "Integration
+      // terminated successfully" and then the assertion statement below it.
+    end when;
   end AssertBecomesTrueAt;
 
   model AssertInitial "Assert the initial value of a signal"
@@ -133,11 +139,21 @@ package XogenyTest
     parameter Real eps=1e-6;
     input Real actual;
   algorithm
+    when initial() then
+      assert(at >= time,
+        "The specified time is before the start of the simulation.");
+    end when;
     when time>=at then
       assertValue(
           actual,
           expected,
           eps);
+    end when;
+    when terminal() then
+      assert(time >= at,
+        "The specified time is after the end of the simulation.");
+      // Note:  In Dymola 7.4, the simulation log may state "Integration
+      // terminated successfully" and then the assertion statement below it.
     end when;
   end AssertValueAt;
 
