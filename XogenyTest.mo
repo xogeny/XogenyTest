@@ -14,6 +14,20 @@ package XogenyTest
       expected) + ").") annotation (inline=true);
   end assertValue;
 
+  function assertValues "Assert that values are within specification"
+    input Real actual[:] "Actual values";
+    input Real expected[size(actual, 1)] "Expected values";
+    input Real eps=1e-7 "Error tolerance";
+    input String name="" "Name of test";
+  algorithm
+    for i in 1:size(actual, 1) loop
+      assert(abs(actual[i] - expected[i]) <= eps, "Test " + String(i) + (if name <> "" then
+              " of " + name else "") + " failed.\n" + "The actual value (" +
+        String(actual[i]) + ") was not within " + String(eps) + " of the expected value ("
+         + String(expected[i]) + ").") annotation (inline=true);
+    end for;
+  end assertValues;
+
   model AssertTrajectory
     parameter Real expected[:,2];
     parameter Real eps=1e-6;
@@ -299,6 +313,20 @@ action="simulate", result="failure"), experiment(StopTime=4));
               StopTime=4));
       end CheckFailure3;
     end ValueAt;
+
+    package Values "Tests associated with assertValues function"
+      function CheckSuccess
+      algorithm
+        assertValues(actual={1,1 + 1e-4}, expected={1,1}, eps=1e-4);
+        annotation (TestCase(action="call",result="success"));
+      end CheckSuccess;
+
+      function CheckFailure1 "Check for failure when a value is incorrect"
+      algorithm
+        assertValues(actual={1,2}, expected={1,1});
+        annotation (TestCase(action="call",result="failure"));
+      end CheckFailure1;
+    end Values;
   end Tests;
 
   package Features
