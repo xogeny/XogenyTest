@@ -28,6 +28,38 @@ package XogenyTest
     end for;
   end assertValues;
 
+  function assertLogValue
+    "Assert that a value is within orders of magnitude of specification"
+    import Modelica.Constants.small;
+    import Modelica.Math.log10;
+    input Real actual "Actual value";
+    input Real expected "Expected value";
+    input Real o=1 "Error tolerance in orders of magnitude";
+    input String name="" "Name of test";
+  algorithm
+    assert((abs(actual) < small and abs(expected) < small) or abs(log10(actual/expected)) <= o, (if name <> "" then "Test " + name + " failed.\n" else
+            "") + "The actual value (" + String(actual) + ") was not within " +
+      String(o) + " orders of magnitude of the expected value (" + String(
+      expected) + ").") annotation (inline=true);
+  end assertLogValue;
+
+  function assertLogValues
+    "Assert that values are within orders of magnitude of specification"
+    import Modelica.Constants.small;
+    import Modelica.Math.log10;
+    input Real actual[:] "Actual values";
+    input Real expected[size(actual,1)] "Expected values";
+    input Real o=1 "Error tolerance in orders of magnitude";
+    input String name="" "Name of test";
+  algorithm
+    for i in 1:size(actual, 1) loop
+      assert((abs(actual[i]) < small and abs(expected[i]) < small) or abs(log10(actual[i]/expected[i])) <= o, "Test " + String(i) + (if
+        name <> "" then " of " + name else "") + " failed.\n" + "The actual value ("
+         + String(actual[i]) + ") was not within " + String(o) + " orders of magnitude of the expected value ("
+         + String(expected[i]) + ").") annotation (inline=true);
+    end for;
+  end assertLogValues;
+
   model AssertTrajectory
     parameter Real expected[:,2];
     parameter Real eps=1e-6;
@@ -327,6 +359,34 @@ action="simulate", result="failure"), experiment(StopTime=4));
         annotation (TestCase(action="call",result="failure"));
       end CheckFailure1;
     end Values;
+
+    package LogValue "Tests associated with assertLogValue function"
+      function CheckSuccess
+      algorithm
+        assertLogValue(actual=10, expected=1);
+        annotation (TestCase(action="call",result="success"));
+      end CheckSuccess;
+
+      function CheckFailure1 "Check for failure when value is incorrect"
+      algorithm
+        assertLogValue(actual=11, expected=1);
+        annotation (TestCase(action="call",result="failure"));
+      end CheckFailure1;
+    end LogValue;
+
+    package LogValues "Tests associated with assertLogValues function"
+      function CheckSuccess
+      algorithm
+        assertLogValues(actual={0,1,100}, expected={0,10,10});
+        annotation (TestCase(action="call",result="success"));
+      end CheckSuccess;
+
+      function CheckFailure1 "Check for failure when a value is incorrect"
+      algorithm
+        assertLogValues(actual={1,101}, expected={10,10});
+        annotation (TestCase(action="call",result="failure"));
+      end CheckFailure1;
+    end LogValues;
   end Tests;
 
   package Features
