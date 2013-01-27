@@ -1,0 +1,6 @@
+// Convert from XogenyTest 1.0 to XogenyTest 1.1
+
+convertClear();
+
+convertElement("XogenyTest.AssertBecomesTrueAt", "expected", "at");
+convertElement("XogenyTest.AssertBecomesTrueAt", "actual", "event");
