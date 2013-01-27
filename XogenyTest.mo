@@ -11,7 +11,7 @@ package XogenyTest
     assert(abs(actual - expected) <= eps, (if name <> "" then "Test " + name +
       " failed.\n" else "") + "The actual value (" + String(actual) +
       ") was not within " + String(eps) + " of the expected value (" + String(
-      expected) + ").") annotation (inline=true);
+      expected) + ").") annotation (Inline=true);
   end assertValue;
 
   function assertValues "Assert that values are within specification"
@@ -24,7 +24,7 @@ package XogenyTest
       assert(abs(actual[i] - expected[i]) <= eps, "Test " + String(i) + (if name <> "" then
               " of " + name else "") + " failed.\n" + "The actual value (" +
         String(actual[i]) + ") was not within " + String(eps) + " of the expected value ("
-         + String(expected[i]) + ").") annotation (inline=true);
+         + String(expected[i]) + ").") annotation (Inline=true);
     end for;
   end assertValues;
 
@@ -40,7 +40,7 @@ package XogenyTest
     assert((abs(actual) < small and abs(expected) < small) or abs(log10(actual/expected)) <= o, (if name <> "" then "Test " + name + " failed.\n" else
             "") + "The actual value (" + String(actual) + ") was not within " +
       String(o) + " orders of magnitude of the expected value (" + String(
-      expected) + ").") annotation (inline=true);
+      expected) + ").") annotation (Inline=true);
   end assertLogValue;
 
   function assertLogValues
@@ -56,7 +56,7 @@ package XogenyTest
       assert((abs(actual[i]) < small and abs(expected[i]) < small) or abs(log10(actual[i]/expected[i])) <= o, "Test " + String(i) + (if
         name <> "" then " of " + name else "") + " failed.\n" + "The actual value ("
          + String(actual[i]) + ") was not within " + String(o) + " orders of magnitude of the expected value ("
-         + String(expected[i]) + ").") annotation (inline=true);
+         + String(expected[i]) + ").") annotation (Inline=true);
     end for;
   end assertLogValues;
 
