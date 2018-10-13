@@ -10,7 +10,8 @@ package Continuous
   model CheckSuccessEulerAgainstAnalytical "Simulate this model using Euler method"
     extends Continuous.CheckSuccessAgainstAnalyticalSol(check.MaxAccErr = 1e-2);
     annotation(
-      experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-05, Interval = 0.0025));
+      experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-05, Interval = 0.0025),
+      __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "euler"));
   end CheckSuccessEulerAgainstAnalytical;
 
   annotation(
