@@ -2,15 +2,21 @@ within XogenyTest;
 
 model AssertContinuousTrajectory "Assert correctness of a whole solution trajectory"
 
-input Real T1 "First trajectory"; 
-input Real T2 "Second trajectory"; 
+input Modelica.Blocks.Interfaces.RealInput T1 "First trajectory" annotation(
+    Placement(visible = true, transformation(origin = {0, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-96, 66}, extent = {{-20, -20}, {20, 20}}, rotation = 0))); 
+input Modelica.Blocks.Interfaces.RealInput T2 "Second trajectory" annotation(
+    Placement(visible = true, transformation(origin = {0, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-94, -76}, extent = {{-20, -20}, {20, 20}}, rotation = 0))); 
 
 parameter Real MaxAccErr = 1e-3 "Maximum Accumulation Error"; 
 parameter Real eps = 1e-7;  
 parameter String testName = "" "Name of Test";
+
+  Modelica.Blocks.Interfaces.RealOutput Area annotation(
+    Placement(visible = true, transformation(origin = {100, -4}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, -4}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+
 protected 
+
 Real diff "Absolute value difference between two trajectories"; 
-Real Area "Area under diff trajectory"; 
 
 equation 
 
