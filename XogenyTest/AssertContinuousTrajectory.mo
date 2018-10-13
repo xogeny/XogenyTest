@@ -8,10 +8,9 @@ input Modelica.Blocks.Interfaces.RealInput T2 "Second trajectory" annotation(
     Placement(visible = true, transformation(origin = {0, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {-94, -76}, extent = {{-20, -20}, {20, 20}}, rotation = 0))); 
 
 parameter Real MaxAccErr = 1e-3 "Maximum Accumulation Error"; 
-parameter Real eps = 1e-7;  
 parameter String testName = "" "Name of Test";
 
-  Modelica.Blocks.Interfaces.RealOutput Area annotation(
+  Modelica.Blocks.Interfaces.RealOutput Area "The area of the difference between the input trajectories" annotation(
     Placement(visible = true, transformation(origin = {100, -4}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, -4}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
 
 protected 
@@ -24,7 +23,7 @@ equation
  der(Area) = if (diff > 0) then diff else -diff; 
  
  when terminal() then
-  XogenyTest.assertValue(Area,MaxAccErr,eps,testName);
+  XogenyTest.assertValue(Area,0,eps=MaxAccErr,name=testName);
  end when; 
 
 annotation(
