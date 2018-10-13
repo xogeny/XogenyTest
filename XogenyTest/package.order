@@ -8,5 +8,6 @@ AssertInitial
 AssertFinal
 AssertAverageBetween
 AssertValueAt
+AssertContinuousTrajectory
 Tests
 Features
