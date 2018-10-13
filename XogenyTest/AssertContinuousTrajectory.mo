@@ -24,8 +24,7 @@ equation
  
  when terminal() then
    assert(Area < MaxAccErr, (if name <> "" then "Test " + name +
-    " failed.\n" else "") + "The area between the input trajectories (" + String(actual) +
-    ") was more than " + String(MaxAccErr) + ").") annotation (Inline=true);
+    " failed.\n" else "") + " The area between the input trajectories was more than " + String(MaxAccErr) + ").") annotation (Inline=true);
  end when; 
 
 annotation(
