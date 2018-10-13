@@ -18,4 +18,7 @@ equation
   connect(x_ana,check.T2); 
   connect(error,check.Area);  
 
+annotation(
+    experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-6, Interval = 0.002));
+    
 end CheckSuccessAgainstAnalyticalSol;
