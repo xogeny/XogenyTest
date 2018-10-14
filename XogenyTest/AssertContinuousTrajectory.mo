@@ -26,7 +26,7 @@ equation
  end when; 
  
  annotation(
-    Documentation(info = "<html><head></head><body>A testing facitilty for ensuring the correctness of a continuous variabl. Can be useful in checking a solution when<div><br></div><div><ul><li>Analytical solution is known in advance&nbsp;</li><li>Comparing a new implementation with an old one&nbsp;</li><li>Validating a new numerical solvers&nbsp;</li></ul><div>Practical usage can be followed by the GenKinetics library, see <a href=\"https://github.com/AtiyahElsheikh/GenKinetics\">here</a>.</div></div></body></html>"),
+    Documentation(info = "<html><head></head><body><div>A testing facitilty for ensuring the correctness of a continuous variabl. Can be useful in checking a solution when</div><div><ul><li>Analytical solution is known in advance&nbsp;</li><li>Comparing a new implementation with an old one&nbsp;</li><li>Validating a new numerical solvers&nbsp;</li></ul><div>Practical usage can be followed by the GenKinetics library, see <a href=\"https://github.com/AtiyahElsheikh/GenKinetics\">here</a>.&nbsp;</div></div><div><br></div><div>Developed by Atiyah Elsheikh</div></body></html>"),
     Icon(graphics = {Rectangle(origin = {-14, -1}, lineColor = {0, 0, 127}, pattern = LinePattern.DashDotDot, extent = {{-86, 101}, {114, -99}})}));
 
 end AssertContinuousTrajectory;
