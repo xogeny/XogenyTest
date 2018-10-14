@@ -11,6 +11,7 @@ equation
   x =  check.T1;
   x_ana = check.T2;
   error = check.Area;
-  annotation (
-    experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002,  method = "dassl"));
+  annotation(
+    experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002),
+    __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "dassl"));
 end CheckSuccessAgainstAnalyticalSol;
