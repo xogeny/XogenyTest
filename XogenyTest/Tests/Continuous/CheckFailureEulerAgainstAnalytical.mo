@@ -5,4 +5,4 @@ model CheckFailureEulerAgainstAnalytical "Simulate this model using Euler method
   annotation(
     experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-05, Interval = 0.0025),
     __OpenModelica_simulationFlags(lv = "LOG_STATS", s = "euler"),TestCase(action="simulate", result="failure"));
-end CheckFilureEulerAgainstAnalytical;
+end CheckFailureEulerAgainstAnalytical;
